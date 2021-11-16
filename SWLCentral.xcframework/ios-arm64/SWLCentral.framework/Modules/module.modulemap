@@ -1,0 +1,11 @@
+framework module SWLCentral {
+  umbrella header "SWLCentral.h"
+
+  export *
+  module * { export * }
+}
+
+module SWLCentral.Swift {
+    header "SWLCentral-Swift.h"
+    requires objc
+}

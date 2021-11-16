@@ -1,0 +1,161 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
+// swift-module-flags: -target arm64-apple-ios15.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name SWLCentral
+import CoreBluetooth
+import Foundation
+@_exported import SWLCentral
+import Swift
+import _Concurrency
+@objc @_inheritsConvenienceInitializers open class SWPeripheralManager : ObjectiveC.NSObject, CoreBluetooth.CBPeripheralDelegate, SWLCentral.SWPeripheralDelegate {
+  public var peripheralDevice: CoreBluetooth.CBPeripheral?
+  public var peripheralDevices: [CoreBluetooth.CBPeripheral]!
+  open func getPeripheralServices()
+  public func receivedPeripheral(peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func peripheralIsReady(toSendWriteWithoutResponse peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didWriteValueFor descriptor: CoreBluetooth.CBDescriptor, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didWriteValueFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor descriptor: CoreBluetooth.CBDescriptor, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateNotificationStateFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol SWCharactersticDelegate : AnyObject {
+  func receivedDeviceCharacteristics(characteristics: [CoreBluetooth.CBCharacteristic])
+  func receivedServiceCharacteristics(characteristics: [CoreBluetooth.CBCharacteristic])
+  func recievedNotifiableCharacteristiUpdate(characteristics: CoreBluetooth.CBCharacteristic)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class SWConnectionManager : ObjectiveC.NSObject, SWLCentral.SWConnectionDelegate, SWLCentral.SWPeripheralDelegate, SWLCentral.SWCharactersticDelegate {
+  public static let shared: SWLCentral.SWConnectionManager
+  public var deviceCharacteristics: [CoreBluetooth.CBCharacteristic]
+  public var peripheralManager: SWLCentral.SWPeripheralManager
+  public var packetsArray: [Foundation.Data]
+  public var centralManagerDelegate: SWLCentral.SWCentralManagerDelegate!
+  public var delegate: SWLCentral.SWConnectionStatus?
+  open func performAction(name: Swift.String, data: Swift.String?, isAcknowledged: Swift.Bool?)
+  public func connectedPeripheral(peripheral: CoreBluetooth.CBPeripheral)
+  public func disconnectDevice()
+  public func scanPeripherals()
+  public func receivedNotificationFor(_ characteristic: CoreBluetooth.CBCharacteristic)
+  public func writeInternalData(finalData: Swift.String, isAcknowledged: Swift.Bool)
+  public func writeCharacteristics(finalData: Swift.String, isAcknowledged: Swift.Bool)
+  public func receivedDeviceCharacteristics(characteristics: [CoreBluetooth.CBCharacteristic])
+  public func receivedServiceCharacteristics(characteristics: [CoreBluetooth.CBCharacteristic])
+  public func receivedPeripheral(peripheral: CoreBluetooth.CBPeripheral)
+  public func recievedNotifiableCharacteristiUpdate(characteristics: CoreBluetooth.CBCharacteristic)
+  @objc deinit
+}
+public protocol SWConnectionStatus {
+  func fetchConnectionStatus(status: Swift.String)
+  func fetchPeripheralStatus(status: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers open class SWCentralManagerDelegate : ObjectiveC.NSObject, CoreBluetooth.CBCentralManagerDelegate {
+  public static let shared: SWLCentral.SWCentralManagerDelegate
+  @objc public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol SWPeripheralDelegate : AnyObject {
+  func receivedPeripheral(peripheral: CoreBluetooth.CBPeripheral)
+}
+public protocol SWConnectionDelegate : AnyObject {
+  func scanPeripherals()
+  func disconnectDevice()
+  func connectedPeripheral(peripheral: CoreBluetooth.CBPeripheral)
+  func receivedNotificationFor(_ characteristic: CoreBluetooth.CBCharacteristic)
+}
+public enum SWManagerState : Swift.Int {
+  case unknown
+  case resetting
+  case unsupported
+  case unauthorized
+  case poweredOff
+  case poweredOn
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct SWDeviceCharacteristics {
+  public static let manufacturername: CoreBluetooth.CBUUID
+  public static let modelName: CoreBluetooth.CBUUID
+  public static let firmwareRevision: CoreBluetooth.CBUUID
+  public static let softwareRevision: CoreBluetooth.CBUUID
+  public static let hardwareRevision: CoreBluetooth.CBUUID
+}
+public let deviceUDID: CoreBluetooth.CBUUID
+public let swaralinkServicesUDID: CoreBluetooth.CBUUID
+public let P2C_MoreData_NoAck: CoreBluetooth.CBUUID
+public let P2C_FinalData_NoAck: CoreBluetooth.CBUUID
+public let C2P_MoreData_NoAck: CoreBluetooth.CBUUID
+public let C2P_FinalData_NoAck: CoreBluetooth.CBUUID
+public let P2C_MoreData_Ack: CoreBluetooth.CBUUID
+public let P2C_FinalData_Ack: CoreBluetooth.CBUUID
+public let C2P_MoreData_Ack: CoreBluetooth.CBUUID
+public let C2P_FinalData_Ack: CoreBluetooth.CBUUID
+public let P2C_Internal_MoreData: CoreBluetooth.CBUUID
+public let P2C_Internal_FinalData: CoreBluetooth.CBUUID
+public let C2P_Internal_MoreData: CoreBluetooth.CBUUID
+public let C2P_Internal_FinalData: CoreBluetooth.CBUUID
+public let SWCentralManagerScanOptionAllowDuplicatesKey: Swift.String
+public enum SWAction : Swift.String {
+  case initiate
+  case discoverAndConnect
+  case cancelDiscoverAndConnect
+  case sendData
+  case getDetails
+  case getPeripheralDetails
+  case terminateConnection
+  case sendInternalData
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SWConnectionEvents : Swift.String {
+  case evtDiscovered
+  case evtConnectionEstablished
+  case evtConnectionDetails
+  case evtConnectionTerminated
+  case evtP2CDataReceived
+  case evtP2CInternalDataReceived
+  case evtC2PDataAcknowledged
+  case evtP2CDataAcknowledged
+  case evtUpdateState
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SWStatusEvents : Swift.String {
+  case SWL_CENTRAL_STATE_IDLE
+  case SWL_CENTRAL_STATE_DISCOVERY_IN_PROGRESS
+  case SWL_CENTRAL_STATE_DISCOVERED
+  case SWL_CENTRAL_STATE_ESTABLISHING_CONNECTION
+  case SWL_CENTRAL_STATE_CONNECTED
+  case SWL_CENTRAL_STATE_TERMINATING_CONNECTION
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension SWLCentral.SWManagerState : Swift.Equatable {}
+extension SWLCentral.SWManagerState : Swift.Hashable {}
+extension SWLCentral.SWManagerState : Swift.RawRepresentable {}
+extension SWLCentral.SWAction : Swift.Equatable {}
+extension SWLCentral.SWAction : Swift.Hashable {}
+extension SWLCentral.SWAction : Swift.RawRepresentable {}
+extension SWLCentral.SWConnectionEvents : Swift.Equatable {}
+extension SWLCentral.SWConnectionEvents : Swift.Hashable {}
+extension SWLCentral.SWConnectionEvents : Swift.RawRepresentable {}
+extension SWLCentral.SWStatusEvents : Swift.Equatable {}
+extension SWLCentral.SWStatusEvents : Swift.Hashable {}
+extension SWLCentral.SWStatusEvents : Swift.RawRepresentable {}
